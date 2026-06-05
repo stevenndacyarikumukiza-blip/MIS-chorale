@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-3">
+
+    <!-- STATS CARDS -->
+    <div class="row">
+
+        <!-- TOTAL MEMBERS -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 bg-primary text-white">
+                <div class="card-body">
+                    <h5>🧑‍🤝‍🧑 Abanyamuryango Bose</h5>
+                    <h1 class="mt-3">{{ total }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD MEMBER -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 bg-success text-white">
+                <div class="card-body">
+                    <h5>➕ Ongeraho Umunyamuryango</h5>
+                    <br>
+                    <a href="/add_member" class="btn btn-light">
+                        Fungura Form
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW MEMBERS -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 bg-warning text-dark">
+                <div class="card-body">
+                    <h5>📋 Reba Abanyamuryango</h5>
+                    <br>
+                    <a href="/abanyamuryango" class="btn btn-dark">
+                        Fungura List
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- WELCOME SECTION -->
+    <div class="card shadow-lg border-0 mt-3">
+        <div class="card-body text-center">
+
+            <h2 class="mb-3">🎵 Murakaza neza muri Chorale MIS</h2>
+
+            <p class="lead">
+                Sisitemu yo gucunga abanyamuryango ba Chorale Inshuti za Yesu.
+            </p>
+
+            <img src="https://cdn-icons-png.flaticon.com/512/3659/3659899.png"
+                 width="180">
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

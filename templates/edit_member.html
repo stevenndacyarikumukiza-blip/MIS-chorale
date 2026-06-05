@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow-lg border-0">
+
+    <div class="card-header bg-warning">
+
+        <h3>
+            ✏ Hindura Umwirondoro w'Umunyamuryango
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form action="/update_member/{{ member.id }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div class="row">
+
+                <!-- PHOTO -->
+                <div class="col-md-12 text-center mb-4">
+
+                    {% if member.ifoto %}
+
+                    <img id="preview"
+                         src="{{ url_for('static', filename='uploads/' + member.ifoto) }}"
+                         width="200"
+                         height="200"
+                         class="rounded-circle shadow"
+                         style="object-fit:cover;">
+
+                    {% else %}
+
+                    <img id="preview"
+                         src="https://via.placeholder.com/200"
+                         width="200"
+                         height="200"
+                         class="rounded-circle shadow">
+
+                    {% endif %}
+
+                </div>
+
+                <!-- UPLOAD PHOTO -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📁 Hindura Ifoto
+                    </label>
+
+                    <input type="file"
+                           name="photo"
+                           accept="image/*"
+                           class="form-control"
+                           onchange="previewImage(event)">
+
+                </div>
+
+                <!-- CAMERA -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📸 Fata Ifoto Nshya
+                    </label>
+
+                    <br>
+
+                    <button type="button"
+                            class="btn btn-dark"
+                            onclick="openCamera()">
+
+                        Fungura Camera
+
+                    </button>
+
+                </div>
+
+                <!-- CAMERA VIDEO -->
+                <div class="col-md-12 text-center mb-4">
+
+                    <video id="camera"
+                           width="350"
+                           autoplay
+                           style="display:none; border-radius:15px;">
+                    </video>
+
+                    <canvas id="canvas"
+                            style="display:none;">
+                    </canvas>
+
+                    <br><br>
+
+                    <button type="button"
+                            id="captureBtn"
+                            class="btn btn-success"
+                            style="display:none;"
+                            onclick="takePhoto()">
+
+                        📸 Fata Ifoto
+
+                    </button>
+
+                    <input type="hidden"
+                           name="camera_photo"
+                           id="camera_photo">
+
+                </div>
+
+                <!-- NIMERO -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🆔 Nimero
+                    </label>
+
+                    <input type="text"
+                           name="nimero"
+                           value="{{ member.nimero }}"
+                           class="form-control">
+
+                </div>
+
+                <!-- AMAZINA -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        👤 Amazina
+                    </label>
+
+                    <input type="text"
+                           name="amazina"
+                           value="{{ member.amazina }}"
+                           class="form-control">
+
+                </div>
+
+                <!-- IGITSINA -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🚻 Igitsina
+                    </label>
+
+                    <select name="igitsina"
+                            class="form-control">
+
+                        <option {% if member.igitsina=="Gabo" %}selected{% endif %}>
+                            Gabo
+                        </option>
+
+                        <option {% if member.igitsina=="Gore" %}selected{% endif %}>
+                            Gore
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- TELEFONI -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📞 Telefoni
+                    </label>
+
+                    <input type="text"
+                           name="telefoni"
+                           value="{{ member.telefoni }}"
+                           class="form-control">
+
+                </div>
+
+                <!-- IJWI -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🎵 Ijwi Aririmba
+                    </label>
+
+                    <select name="ijwi_aririmba"
+                            class="form-control">
+
+                        <option {% if member.ijwi_aririmba=="Soprano" %}selected{% endif %}>
+                            Soprano
+                        </option>
+
+                        <option {% if member.ijwi_aririmba=="Alto" %}selected{% endif %}>
+                            Alto
+                        </option>
+
+                        <option {% if member.ijwi_aririmba=="Tenor" %}selected{% endif %}>
+                            Tenor
+                        </option>
+
+                        <option {% if member.ijwi_aririmba=="Bass" %}selected{% endif %}>
+                            Bass
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-success btn-lg">
+
+                💾 Bika Impinduka
+
+            </button>
+
+            <a href="/abanyamuryango"
+               class="btn btn-secondary btn-lg">
+
+               ⬅ Subira Inyuma
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+    const reader = new FileReader();
+
+    reader.onload = function(){
+
+        document.getElementById('preview').src = reader.result;
+
+    }
+
+    reader.readAsDataURL(event.target.files[0]);
+
+}
+
+function openCamera(){
+
+    const video = document.getElementById('camera');
+
+    const captureBtn = document.getElementById('captureBtn');
+
+    video.style.display = "block";
+
+    captureBtn.style.display = "inline-block";
+
+    navigator.mediaDevices.getUserMedia({ video:true })
+
+    .then(function(stream){
+
+        video.srcObject = stream;
+
+    });
+
+}
+
+function takePhoto(){
+
+    const video = document.getElementById('camera');
+
+    const canvas = document.getElementById('canvas');
+
+    const preview = document.getElementById('preview');
+
+    const hiddenInput = document.getElementById('camera_photo');
+
+    const context = canvas.getContext('2d');
+
+    canvas.width = video.videoWidth;
+
+    canvas.height = video.videoHeight;
+
+    context.drawImage(video, 0, 0);
+
+    const imageData = canvas.toDataURL('image/png');
+
+    preview.src = imageData;
+
+    hiddenInput.value = imageData;
+
+}
+
+</script>
+
+{% endblock %}

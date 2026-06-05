@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow-lg">
+
+    <div class="card-header bg-success text-white">
+
+        <h3>
+            💰 Ongeraho Umusanzu
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form action="/save_contribution" method="POST">
+
+            <div class="row">
+
+                <!-- MEMBER SELECT -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        👤 Hitamo Umuririmbyi
+                    </label>
+
+                    <select name="member_id"
+                            class="form-control"
+                            required>
+
+                        <option value="">-- Hitamo --</option>
+
+                        {% for m in members %}
+
+                        <option value="{{ m.id }}">
+                            {{ m.amazina }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- TYPE -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🏷 Izina ry'Umusanzu
+                    </label>
+
+                    <input type="text"
+                           name="ubwoko_umusanzu"
+                           class="form-control"
+                           placeholder="Urugero: Ituro, Imfashanyo"
+                           required>
+
+                </div>
+
+                <!-- MONTH -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📅 Ukwezi
+                    </label>
+
+                    <select name="ukwezi"
+                            class="form-control"
+                            required>
+
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+
+                    </select>
+
+                </div>
+
+                <!-- YEAR -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📆 Umwaka
+                    </label>
+
+                    <input type="number"
+                           name="umwaka"
+                           class="form-control"
+                           placeholder="2026"
+                           required>
+
+                </div>
+
+                <!-- AMOUNT -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        💵 Amafaranga
+                    </label>
+
+                    <input type="number"
+                           name="amafaranga"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <!-- PAYMENT METHOD -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        💳 Uburyo bwo Kwishyura
+                    </label>
+
+                    <select name="uburyo_kwishyura"
+                            class="form-control">
+
+                        <option>Cash</option>
+                        <option>Mobile Money</option>
+                        <option>Bank</option>
+
+                    </select>
+
+                </div>
+
+                <!-- TRANSACTION -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🔢 Nimero ya Transisiyo
+                    </label>
+
+                    <input type="text"
+                           name="nimero_transisiyo"
+                           class="form-control">
+
+                </div>
+
+                <!-- DATE -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🗓 Itariki
+                    </label>
+
+                    <input type="date"
+                           name="igihe"
+                           class="form-control">
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="col-md-12 mb-3">
+
+                    <label class="fw-bold">
+                        📝 Ibisobanuro
+                    </label>
+
+                    <textarea name="ibisobanuro"
+                              class="form-control"
+                              rows="3"></textarea>
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-success btn-lg">
+
+                💾 Bika Umusanzu
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

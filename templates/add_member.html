@@ -1,0 +1,375 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow-lg border-0">
+
+    <div class="card-header bg-primary text-white">
+
+        <h3>
+            🎤 Kwandika Umwirondoro w'Umuririmbyi
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form action="/save_member"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div class="row">
+
+                <!-- PHOTO -->
+                <div class="col-md-12 text-center mb-4">
+
+                    <img id="preview"
+                         src="https://via.placeholder.com/200"
+                         width="200"
+                         height="200"
+                         class="rounded-circle shadow"
+                         style="object-fit:cover;">
+
+                </div>
+
+                <!-- UPLOAD -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📁 Kohereza Ifoto
+                    </label>
+
+                    <input type="file"
+                           name="photo"
+                           accept="image/*"
+                           class="form-control"
+                           onchange="previewImage(event)">
+
+                </div>
+
+                <!-- CAMERA -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📸 Fata Ifoto
+                    </label>
+
+                    <br>
+
+                    <button type="button"
+                            class="btn btn-dark"
+                            onclick="openCamera()">
+
+                        Fungura Camera
+
+                    </button>
+
+                </div>
+
+                <!-- CAMERA VIEW -->
+                <div class="col-md-12 text-center mb-4">
+
+                    <video id="camera"
+                           width="350"
+                           autoplay
+                           style="display:none; border-radius:15px;">
+                    </video>
+
+                    <canvas id="canvas"
+                            style="display:none;">
+                    </canvas>
+
+                    <br><br>
+
+                    <button type="button"
+                            id="captureBtn"
+                            class="btn btn-success"
+                            style="display:none;"
+                            onclick="takePhoto()">
+
+                        📸 Fata Ifoto
+
+                    </button>
+
+                    <input type="hidden"
+                           name="camera_photo"
+                           id="camera_photo">
+
+                </div>
+
+                <!-- AMAZINA -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        👤 Amazina
+                    </label>
+
+                    <input type="text"
+                           name="amazina"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <!-- IGITSINA -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🚻 Igitsina
+                    </label>
+
+                    <select name="igitsina"
+                            class="form-control">
+
+                        <option>Gabo</option>
+                        <option>Gore</option>
+
+                    </select>
+
+                </div>
+
+                <!-- ITARIKI Y'AMAVUKO -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🎂 Itariki y'Amavuko
+                    </label>
+
+                    <input type="date"
+                           name="itariki_yamavuko"
+                           class="form-control">
+
+                </div>
+
+                <!-- TELEFONI -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📞 Telefoni
+                    </label>
+
+                    <input type="text"
+                           name="telefoni"
+                           class="form-control">
+
+                </div>
+
+                <!-- EMAIL -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📧 Email
+                    </label>
+
+                    <input type="email"
+                           name="email"
+                           class="form-control">
+
+                </div>
+
+                <!-- INDANGAMUNTU -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🪪 Indangamuntu
+                    </label>
+
+                    <input type="text"
+                           name="indangamuntu"
+                           class="form-control">
+
+                </div>
+
+                <!-- ADERESI -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📍 Aderesi
+                    </label>
+
+                    <input type="text"
+                           name="aderesi"
+                           class="form-control">
+
+                </div>
+
+                <!-- DEPARTMENT -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🏢 Department
+                    </label>
+
+                    <input type="text"
+                           name="department"
+                           class="form-control">
+
+                </div>
+
+                <!-- INSHINGANO -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        💼 Inshingano
+                    </label>
+
+                    <input type="text"
+                           name="inshingano"
+                           class="form-control">
+
+                </div>
+
+                <!-- IJWI -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🎵 Ijwi Aririmbamo
+                    </label>
+
+                    <select name="ijwi_aririmba"
+                            class="form-control">
+
+                        <option>Soprano</option>
+                        <option>Alto</option>
+                        <option>Tenor</option>
+                        <option>Bass</option>
+
+                    </select>
+
+                </div>
+
+                <!-- ITARIKI YINJIYE -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        📅 Itariki Yinjiye
+                    </label>
+
+                    <input type="date"
+                           name="itariki_yinjiye"
+                           class="form-control">
+
+                </div>
+
+                <!-- YARABATIJWE -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        💧 Yarabatijwe?
+                    </label>
+
+                    <select name="yarabatijwe"
+                            class="form-control">
+
+                        <option>Yego</option>
+                        <option>Oya</option>
+
+                    </select>
+
+                </div>
+
+                <!-- UWO GUHAMAGARA -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        🚨 Uwo Guhamagara
+                    </label>
+
+                    <input type="text"
+                           name="uwo_guhamagara"
+                           class="form-control">
+
+                </div>
+
+                <!-- TELEFONI YUMURYANGO -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+                        ☎ Telefoni y'Umuryango
+                    </label>
+
+                    <input type="text"
+                           name="telefoni_yumuryango"
+                           class="form-control">
+
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary btn-lg">
+
+                💾 Bika Umunyamuryango
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+    const reader = new FileReader();
+
+    reader.onload = function(){
+
+        document.getElementById('preview').src = reader.result;
+
+    }
+
+    reader.readAsDataURL(event.target.files[0]);
+
+}
+
+function openCamera(){
+
+    const video = document.getElementById('camera');
+
+    const captureBtn = document.getElementById('captureBtn');
+
+    video.style.display = "block";
+
+    captureBtn.style.display = "inline-block";
+
+    navigator.mediaDevices.getUserMedia({ video:true })
+
+    .then(function(stream){
+
+        video.srcObject = stream;
+
+    });
+
+}
+
+function takePhoto(){
+
+    const video = document.getElementById('camera');
+
+    const canvas = document.getElementById('canvas');
+
+    const preview = document.getElementById('preview');
+
+    const hiddenInput = document.getElementById('camera_photo');
+
+    const context = canvas.getContext('2d');
+
+    canvas.width = video.videoWidth;
+
+    canvas.height = video.videoHeight;
+
+    context.drawImage(video, 0, 0);
+
+    const imageData = canvas.toDataURL('image/png');
+
+    preview.src = imageData;
+
+    hiddenInput.value = imageData;
+
+}
+
+</script>
+
+{% endblock %}

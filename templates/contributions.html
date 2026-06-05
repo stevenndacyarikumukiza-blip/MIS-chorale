@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-4">
+
+    <h2 class="fw-bold">
+        💰 Imisanzu y'Abanyamuryango
+    </h2>
+
+    <a href="/add_contribution"
+       class="btn btn-success">
+
+       ➕ Ongeraho Umusanzu
+
+    </a>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-success">
+
+                    <tr>
+
+                        <th>Ifoto</th>
+                        <th>Amazina</th>
+                        <th>Umusanzu</th>
+                        <th>Ukwezi</th>
+                        <th>Umwaka</th>
+                        <th>Amafaranga</th>
+                        <th>Itariki</th>
+                        <th>Ibikorwa</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% if contributions %}
+
+                        {% for item in contributions %}
+
+                        <tr>
+
+                            <td>
+
+                                {% if item.ifoto %}
+
+                                <img src="{{ url_for('static',
+                                filename='uploads/' + item.ifoto) }}"
+                                width="60"
+                                height="60"
+                                class="rounded-circle"
+                                style="object-fit:cover;">
+
+                                {% else %}
+
+                                <img src="https://via.placeholder.com/60"
+                                     width="60"
+                                     height="60"
+                                     class="rounded-circle">
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ item.amazina }}
+                            </td>
+
+                            <td>
+                                {{ item.ubwoko_umusanzu }}
+                            </td>
+
+                            <td>
+                                {{ item.ukwezi }}
+                            </td>
+
+                            <td>
+                                {{ item.umwaka }}
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ item.amafaranga }} Frw
+
+                                </span>
+
+                            </td>
+
+                            <td>
+                                {{ item.igihe }}
+                            </td>
+
+                            <td>
+
+                                <a href="/delete_contribution/{{ item.id }}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Uremeza gusiba umusanzu?')">
+
+                                   🗑 Siba
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="8"
+                                class="text-center text-muted">
+
+                                Nta misanzu irabikwa.
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

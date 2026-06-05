@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-4">
+
+    <h2 class="fw-bold">
+        📅 Uko Bitabira
+    </h2>
+
+    <a href="/add_attendance"
+       class="btn btn-success">
+
+       ✅ Kwandika Abitabiriye
+
+    </a>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-success">
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Ubwoko</th>
+                        <th>Event</th>
+                        <th>Itariki</th>
+                        <th>Umunyamuryango</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in attendances %}
+
+                    <tr>
+
+                        <td>{{ row.id }}</td>
+
+                        <td>{{ row.ubwoko }}</td>
+
+                        <td>{{ row.event_name }}</td>
+
+                        <td>{{ row.itariki }}</td>
+
+                        <td>{{ row.amazina }}</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ row.status }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

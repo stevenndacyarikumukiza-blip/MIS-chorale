@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow-lg border-0">
+
+    <div class="card-header bg-primary text-white">
+
+        <div class="d-flex justify-content-between">
+
+            <h3>
+                🧑‍🤝‍🧑 Abanyamuryango ba Chorale
+            </h3>
+
+            <a href="/add_member"
+               class="btn btn-light">
+
+                ➕ Ongeraho Umunyamuryango
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="card-body">
+
+        <!-- SEARCH -->
+
+        <form method="GET"
+              action="/abanyamuryango"
+              class="mb-4">
+
+            <div class="input-group">
+
+                <input type="text"
+                       name="search"
+                       class="form-control"
+                       placeholder="🔍 Shakisha umunyamuryango...">
+
+                <button class="btn btn-primary">
+
+                    Shakisha
+
+                </button>
+
+            </div>
+
+        </form>
+
+        <!-- TABLE -->
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Ifoto</th>
+                        <th>Nimero</th>
+                        <th>Amazina</th>
+                        <th>Igitsina</th>
+                        <th>Telefoni</th>
+                        <th>Ijwi</th>
+                        <th>Status</th>
+                        <th>Ibyo Gukora</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for m in data %}
+
+                    <tr>
+
+                        <td>
+
+                            {% if m.ifoto %}
+
+                            <img src="{{ url_for('static', filename='uploads/' + m.ifoto) }}"
+                                 width="60"
+                                 height="60"
+                                 class="rounded-circle shadow"
+                                 style="object-fit:cover;">
+
+                            {% else %}
+
+                            <img src="https://via.placeholder.com/60"
+                                 width="60"
+                                 class="rounded-circle">
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ m.nimero }}</td>
+
+                        <td>
+                            <strong>{{ m.amazina }}</strong>
+                        </td>
+
+                        <td>{{ m.igitsina }}</td>
+
+                        <td>{{ m.telefoni }}</td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+
+                                {{ m.ijwi_aririmba }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ m.status }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <!-- REBA -->
+
+                            <a href="/member/{{ m.id }}"
+                               class="btn btn-primary btn-sm">
+
+                               👁 Reba
+
+                            </a>
+
+                            <!-- HINDURA -->
+
+                            <a href="/edit/{{ m.id }}"
+                               class="btn btn-warning btn-sm">
+
+                               ✏ Hindura
+
+                            </a>
+
+                            <!-- SIBA -->
+
+                            <a href="/delete/{{ m.id }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Urashaka gusiba uyu munyamuryango?')">
+
+                               🗑 Siba
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

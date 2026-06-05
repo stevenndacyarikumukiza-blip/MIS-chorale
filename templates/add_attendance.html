@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+
+        <h3>
+            ✅ Kwandika Ubitabiriye
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <form action="/save_attendance"
+              method="POST">
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+                        📌 Ubwoko bw'Igikorwa
+                    </label>
+
+                    <select name="ubwoko"
+                            class="form-control"
+                            required>
+
+                        <option value="">
+                            -- Hitamo --
+                        </option>
+
+                        <option value="Imyitozo">
+                            Imyitozo
+                        </option>
+
+                        <option value="Amateraniro yo Ku Cyumweru">
+                            Amateraniro yo Ku Cyumweru
+                        </option>
+
+                        <option value="Special Event">
+                            Special Event
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+                        📅 Itariki
+                    </label>
+
+                    <input type="date"
+                           name="itariki"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+                        📝 Izina ry'Igikorwa
+                    </label>
+
+                    <input type="text"
+                           name="izina_event"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <div class="col-md-12 mb-3">
+
+                    <label class="fw-bold">
+                        📖 Ibisobanuro
+                    </label>
+
+                    <textarea name="ibisobanuro"
+                              class="form-control"
+                              rows="3"></textarea>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h4 class="mb-3">
+                👥 Abanyamuryango
+            </h4>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-success">
+
+                        <tr>
+
+                            <th>Ifoto</th>
+                            <th>Nimero</th>
+                            <th>Amazina</th>
+                            <th>Ijwi</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for member in members %}
+
+                        <tr>
+
+                            <td>
+
+                                {% if member.ifoto %}
+
+                                <img src="{{ url_for('static',
+                                filename='uploads/' + member.ifoto) }}"
+                                     width="60"
+                                     height="60"
+                                     class="rounded-circle"
+                                     style="object-fit:cover;">
+
+                                {% else %}
+
+                                <img src="https://via.placeholder.com/60"
+                                     width="60"
+                                     height="60"
+                                     class="rounded-circle">
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ member.nimero }}
+                            </td>
+
+                            <td>
+                                {{ member.amazina }}
+                            </td>
+
+                            <td>
+                                {{ member.ijwi_aririmba }}
+                            </td>
+
+                            <td>
+
+                                <select
+                                    name="status_{{ member.id }}"
+                                    class="form-control">
+
+                                    <option value="">
+                                        -- Hitamo --
+                                    </option>
+
+                                    <option value="Present">
+                                        ✅ Yitabiriye
+                                    </option>
+
+                                    <option value="Absent">
+                                        ❌ Ntiyitabiriye
+                                    </option>
+
+                                    <option value="Late">
+                                        ⏰ Yatinze
+                                    </option>
+
+                                </select>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <button class="btn btn-success btn-lg">
+
+                💾 Bika Attendance
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

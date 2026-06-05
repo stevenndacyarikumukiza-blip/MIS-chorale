@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-lg border-0">
+
+        <!-- HEADER -->
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+            <h3>
+                🎤 Umwirondoro w'Umunyamuryango
+            </h3>
+
+            <span class="badge bg-success p-2">
+
+                {{ member.status }}
+
+            </span>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- PHOTO -->
+                <div class="col-md-4 text-center">
+
+                    {% if member.ifoto %}
+
+                    <img src="{{ url_for('static', filename='uploads/' + member.ifoto) }}"
+                         width="250"
+                         height="250"
+                         class="rounded-circle shadow-lg border border-4 border-primary"
+                         style="object-fit:cover;">
+
+                    {% else %}
+
+                    <img src="https://via.placeholder.com/250"
+                         class="rounded-circle shadow-lg">
+
+                    {% endif %}
+
+                    <h4 class="mt-3">
+
+                        {{ member.amazina }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        🎵 {{ member.ijwi_aririmba }}
+
+                    </p>
+
+                </div>
+
+                <!-- DETAILS -->
+                <div class="col-md-8">
+
+                    <h4 class="mb-4 text-primary">
+
+                        📋 Amakuru y'Umunyamuryango
+
+                    </h4>
+
+                    <table class="table table-bordered table-hover">
+
+                        <tr>
+                            <th width="35%">🆔 Nimero</th>
+                            <td>{{ member.nimero }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>👤 Amazina</th>
+                            <td>{{ member.amazina }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>🚻 Igitsina</th>
+                            <td>{{ member.igitsina }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>🎂 Itariki y'Amavuko</th>
+                            <td>{{ member.itariki_yamavuko }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>📞 Telefoni</th>
+                            <td>{{ member.telefoni }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>📧 Email</th>
+                            <td>{{ member.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>🪪 Indangamuntu</th>
+                            <td>{{ member.indangamuntu }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>📍 Aderesi</th>
+                            <td>{{ member.aderesi }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>🏢 Department</th>
+                            <td>{{ member.department }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>💼 Inshingano</th>
+                            <td>{{ member.inshingano }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>🎵 Ijwi Aririmbamo</th>
+                            <td>{{ member.ijwi_aririmba }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>📅 Itariki Yinjiye</th>
+                            <td>{{ member.itariki_yinjiye }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>💧 Yarabatijwe?</th>
+                            <td>{{ member.yarabatijwe }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>🚨 Uwo Guhamagara</th>
+                            <td>{{ member.uwo_guhamagara }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>☎ Telefoni y'Umuryango</th>
+                            <td>{{ member.telefoni_yumuryango }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>🕒 Igihe Yandikiwe</th>
+                            <td>{{ member.igihe }}</td>
+                        </tr>
+
+                    </table>
+
+                    <!-- BUTTONS -->
+                    <div class="mt-4">
+
+                        <a href="/edit/{{ member.id }}"
+                           class="btn btn-warning btn-lg">
+
+                            ✏ Hindura
+
+                        </a>
+
+                        <a href="/delete/{{ member.id }}"
+                           class="btn btn-danger btn-lg"
+                           onclick="return confirm('Urashaka gusiba uyu munyamuryango?')">
+
+                            🗑 Siba
+
+                        </a>
+
+                        <a href="/abanyamuryango"
+                           class="btn btn-secondary btn-lg">
+
+                            ⬅ Subira ku Rutonde
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
