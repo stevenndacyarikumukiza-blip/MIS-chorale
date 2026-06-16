@@ -21,13 +21,12 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # ===============================
 def db():
     return pymysql.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="chorale_mis",
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME"),
         cursorclass=pymysql.cursors.DictCursor
     )
-
 # ===============================
 # DASHBOARD
 # ===============================
