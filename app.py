@@ -4,6 +4,9 @@ import os
 import base64
 from werkzeug.utils import secure_filename
 
+# ===============================
+# APP INIT
+# ===============================
 app = Flask(__name__)
 
 # ===============================
@@ -12,7 +15,6 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
 
 # ===============================
 # DATABASE CONNECTION
@@ -26,7 +28,6 @@ def db():
         cursorclass=pymysql.cursors.DictCursor
     )
 
-
 # ===============================
 # DASHBOARD
 # ===============================
@@ -39,16 +40,13 @@ def dashboard():
     total = cur.fetchone()["total"]
 
     conn.close()
-
     return render_template("dashboard.html", total=total)
-
 
 # ===============================
 # MEMBERS
 # ===============================
 @app.route("/abanyamuryango")
 def members():
-
     search = request.args.get("search")
 
     conn = db()
@@ -68,15 +66,12 @@ def members():
 
     return render_template("members.html", data=data)
 
-
 @app.route("/add_member")
 def add_member():
     return render_template("add_member.html")
 
-
 @app.route("/save_member", methods=["POST"])
 def save_member():
-
     conn = db()
     cur = conn.cursor()
 
@@ -86,7 +81,7 @@ def save_member():
     indangamuntu = request.form.get("indangamuntu")
     telefoni = request.form.get("telefoni")
     email = request.form.get("email")
-    aderesi = request.form.get("aderesi")
+    aderes = request.form.get("aderesi")
     department = request.form.get("department")
     inshingano = request.form.get("inshingano")
     ijwi_aririmba = request.form.get("ijwi_aririmba")
@@ -116,7 +111,7 @@ def save_member():
     cur.execute("""
         INSERT INTO abanyamuryango (
             nimero, amazina, igitsina, itariki_yamavuko,
-            indangamuntu, telefoni, email, aderesi,
+            indangamuntu, telefoni, email, aderes,
             department, inshingano, ijwi_aririmba,
             itariki_yinjiye, status, yarabatijwe,
             uwo_guhamagara, telefoni_yumuryango, ifoto
@@ -125,7 +120,7 @@ def save_member():
                 %s,%s,%s,%s,%s,%s,%s)
     """, (
         nimero, amazina, igitsina, itariki_yamavuko,
-        indangamuntu, telefoni, email, aderesi,
+        indangamuntu, telefoni, email, aderes,
         department, inshingano, ijwi_aririmba,
         itariki_yinjiye, "Active", yarabatijwe,
         uwo_guhamagara, telefoni_yumuryango, filename
@@ -136,13 +131,11 @@ def save_member():
 
     return redirect("/abanyamuryango")
 
-
 # ===============================
-# ATTENDANCE (Uko Bitabira)
+# ATTENDANCE VIEW
 # ===============================
 @app.route("/attendance")
 def attendance():
-
     conn = db()
     cur = conn.cursor()
 
@@ -155,106 +148,21 @@ def attendance():
             m.amazina,
             a.status
         FROM attendance a
-
-        JOIN attendance_sessions s
-            ON a.session_id = s.id
-
-        JOIN abanyamuryango m
-            ON a.member_id = m.id
-
+        JOIN attendance_sessions s ON a.session_id = s.id
+        JOIN abanyamuryango m ON a.member_id = m.id
         ORDER BY s.itariki DESC
     """)
 
     attendances = cur.fetchall()
-
     conn.close()
 
-    return render_template(
-        "attendance.html",
-        attendances=attendances
-    )
-# ===============================
-# SAVE ATTENDANCE
-# ===============================
-@app.route("/save_attendance", methods=["POST"])
-def save_attendance():
-
-    ubwoko = request.form.get("ubwoko")
-    izina_event = request.form.get("izina_event")
-    itariki = request.form.get("itariki")
-    ibisobanuro = request.form.get("ibisobanuro")
-
-    conn = db()
-    cur = conn.cursor()
-
-    # 1. Bika session
-    cur.execute("""
-        INSERT INTO attendance_sessions
-        (
-            ubwoko,
-            izina_event,
-            itariki,
-            ibisobanuro
-        )
-        VALUES (%s,%s,%s,%s)
-    """, (
-        ubwoko,
-        izina_event,
-        itariki,
-        ibisobanuro
-    ))
-
-    conn.commit()
-
-    # 2. Fata ID ya session imaze kubikwa
-    session_id = cur.lastrowid
-
-    # 3. Fata abanyamuryango bose
-    cur.execute("""
-        SELECT id
-        FROM abanyamuryango
-    """)
-
-    members = cur.fetchall()
-
-    # 4. Bika attendance ya buri muntu
-    for member in members:
-
-        member_id = member["id"]
-
-        status = request.form.get(
-            f"status_{member_id}"
-        )
-
-        if status:
-
-            cur.execute("""
-                INSERT INTO attendance
-                (
-                    session_id,
-                    member_id,
-                    status,
-                    ibisobanuro
-                )
-                VALUES (%s,%s,%s,%s)
-            """, (
-                session_id,
-                member_id,
-                status,
-                ""
-            ))
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/attendance")
+    return render_template("attendance.html", attendances=attendances)
 
 # ===============================
-# ADD ATTENDANCE (Kwandika Abitabiriye)
+# ADD ATTENDANCE
 # ===============================
 @app.route("/add_attendance")
 def add_attendance():
-
     conn = db()
     cur = conn.cursor()
 
@@ -265,17 +173,58 @@ def add_attendance():
     """)
 
     members = cur.fetchall()
-
     conn.close()
 
     return render_template("add_attendance.html", members=members)
 
 # ===============================
-# CONTRIBUTIONS (IMISANZU)
+# SAVE ATTENDANCE
+# ===============================
+@app.route("/save_attendance", methods=["POST"])
+def save_attendance():
+    ubwoko = request.form.get("ubwoko")
+    izina_event = request.form.get("izina_event")
+    itariki = request.form.get("itariki")
+    ibisobanuro = request.form.get("ibisobanuro")
+
+    conn = db()
+    cur = conn.cursor()
+
+    # save session
+    cur.execute("""
+        INSERT INTO attendance_sessions
+        (ubwoko, izina_event, itariki, ibisobanuro)
+        VALUES (%s,%s,%s,%s)
+    """, (ubwoko, izina_event, itariki, ibisobanuro))
+
+    conn.commit()
+    session_id = cur.lastrowid
+
+    # get members
+    cur.execute("SELECT id FROM abanyamuryango")
+    members = cur.fetchall()
+
+    for member in members:
+        member_id = member["id"]
+        status = request.form.get(f"status_{member_id}")
+
+        if status:
+            cur.execute("""
+                INSERT INTO attendance
+                (session_id, member_id, status, ibisobanuro)
+                VALUES (%s,%s,%s,%s)
+            """, (session_id, member_id, status, ""))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/attendance")
+
+# ===============================
+# CONTRIBUTIONS
 # ===============================
 @app.route("/imisanzu")
 def imisanzu():
-
     conn = db()
     cur = conn.cursor()
 
@@ -289,64 +238,34 @@ def imisanzu():
             i.igihe,
             m.amazina
         FROM imisanzu i
-        JOIN abanyamuryango m
-        ON i.member_id = m.id
+        JOIN abanyamuryango m ON i.member_id = m.id
         ORDER BY i.id DESC
     """)
 
     contributions = cur.fetchall()
-
     conn.close()
 
     return render_template("contributions.html", contributions=contributions)
-# ===============================
-# DELETE CONTRIBUTION
-# ===============================
-@app.route("/delete_contribution/<int:id>")
-def delete_contribution(id):
-
-    conn = db()
-    cur = conn.cursor()
-
-    cur.execute("""
-        DELETE FROM imisanzu
-        WHERE id=%s
-    """, (id,))
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/imisanzu")
-
 
 # ===============================
 # ADD CONTRIBUTION
 # ===============================
 @app.route("/add_contribution")
 def add_contribution():
-
     conn = db()
     cur = conn.cursor()
 
-    cur.execute("""
-        SELECT id, amazina
-        FROM abanyamuryango
-        ORDER BY amazina
-    """)
-
+    cur.execute("SELECT id, amazina FROM abanyamuryango ORDER BY amazina")
     members = cur.fetchall()
 
     conn.close()
-
     return render_template("add_contribution.html", members=members)
-
 
 # ===============================
 # SAVE CONTRIBUTION
 # ===============================
 @app.route("/save_contribution", methods=["POST"])
 def save_contribution():
-
     member_id = request.form.get("member_id")
     ubwoko_umusanzu = request.form.get("ubwoko_umusanzu")
     ukwezi = request.form.get("ukwezi")
@@ -362,33 +281,37 @@ def save_contribution():
 
     cur.execute("""
         INSERT INTO imisanzu (
-            member_id,
-            ubwoko_umusanzu,
-            ukwezi,
-            umwaka,
-            amafaranga,
-            uburyo_kwishyura,
-            nimero_transisiyo,
-            ibisobanuro,
-            igihe
+            member_id, ubwoko_umusanzu, ukwezi, umwaka,
+            amafaranga, uburyo_kwishyura,
+            nimero_transisiyo, ibisobanuro, igihe
         )
         VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
     """, (
-        member_id,
-        ubwoko_umusanzu,
-        ukwezi,
-        umwaka,
-        amafaranga,
-        uburyo_kwishyura,
-        nimero_transisiyo,
-        ibisobanuro,
-        igihe
+        member_id, ubwoko_umusanzu, ukwezi, umwaka,
+        amafaranga, uburyo_kwishyura,
+        nimero_transisiyo, ibisobanuro, igihe
     ))
 
     conn.commit()
     conn.close()
 
     return redirect("/imisanzu")
+
+# ===============================
+# DELETE CONTRIBUTION
+# ===============================
+@app.route("/delete_contribution/<int:id>")
+def delete_contribution(id):
+    conn = db()
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM imisanzu WHERE id=%s", (id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/imisanzu")
+
 # ===============================
 # RUN APP
 # ===============================
